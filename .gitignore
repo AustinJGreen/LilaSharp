@@ -1,3 +1,4 @@
+.vs/
 *.ide
 *.nupkg
 *.nuspec
@@ -11,4 +12,3 @@
 *.txt
 *.ide
 *.suo
-.vs/
