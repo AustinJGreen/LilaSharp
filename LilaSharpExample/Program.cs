@@ -11,6 +11,8 @@ namespace LilaSharpExample
             using (LilaClient client = new LilaClient())
             {
                 client.Events.OnChallenges += OnChallenges;
+
+                //Login as anonymous
                 client.Login();
 
                 Console.WriteLine("Ready.");
