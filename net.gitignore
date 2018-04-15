@@ -1,0 +1,16 @@
+# Nuget
+*.ide
+*.nupkg
+*.nuspec
+
+# Net
+*.pdb
+*.log
+*.exe
+*.exe.config
+*.manifest
+*.cache
+*.copycomplete
+*.txt
+*.ide
+*.suo
