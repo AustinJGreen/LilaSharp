@@ -11,6 +11,8 @@ bin/
 *.cache
 *.copycomplete
 *.txt
+*.bat
+*.cmd
 *.ide
 *.suo
 *.exe.config
