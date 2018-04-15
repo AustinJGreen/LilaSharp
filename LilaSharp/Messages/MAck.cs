@@ -1,6 +1,6 @@
 ﻿namespace LilaSharp.Messages
 {
-    public class MAck : IMessage
+    public class MAck : ITypeMessage
     {
         public string Type => "ack";
     }

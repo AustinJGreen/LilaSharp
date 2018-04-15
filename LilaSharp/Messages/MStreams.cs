@@ -2,7 +2,7 @@
 
 namespace LilaSharp.Messages
 {
-    public class MStreams : IMessage
+    public class MStreams : ITypeMessage
     {
         public string Type => "streams";
 

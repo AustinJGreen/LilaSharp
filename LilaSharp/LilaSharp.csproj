@@ -60,6 +60,12 @@
     <Compile Include="Api\SeekResponse.cs" />
     <Compile Include="Delegates\LilaEventHandler.cs" />
     <Compile Include="Internal\SocketDisconnectArgs.cs" />
+    <Compile Include="Internal\TypeDelegate.cs" />
+    <Compile Include="Messages\ITypeMessage.cs" />
+    <Compile Include="Messages\MGone.cs" />
+    <Compile Include="Messages\MVersion.cs" />
+    <Compile Include="Packets\PAbort.cs" />
+    <Compile Include="Packets\PMoreTime.cs" />
     <Compile Include="Types\Speed.cs" />
     <Compile Include="Events\ChallengesEvent.cs" />
     <Compile Include="Events\ConnectEvent.cs" />
@@ -94,7 +100,7 @@
     <Compile Include="LilaTournament.cs" />
     <Compile Include="Internal\Message.cs" />
     <Compile Include="Internal\MessageHandler.cs" />
-    <Compile Include="Messages\IGameMessage.cs" />
+    <Compile Include="Messages\IVersionedMessage.cs" />
     <Compile Include="Messages\MAck.cs" />
     <Compile Include="Messages\MBerserk.cs" />
     <Compile Include="Messages\MCheckCount.cs" />
@@ -105,7 +111,7 @@
     <Compile Include="Messages\MEnd.cs" />
     <Compile Include="Messages\MEndData.cs" />
     <Compile Include="Messages\MFeatured.cs" />
-    <Compile Include="Messages\MGameEvent.cs" />
+    <Compile Include="Messages\MGameMessages.cs" />
     <Compile Include="Messages\MChallenges.cs" />
     <Compile Include="Messages\MHooks.cs" />
     <Compile Include="Messages\MHookSync.cs" />
@@ -150,7 +156,7 @@
     <Compile Include="Api\Seek.cs" />
     <Compile Include="Types\Challenge.cs" />
     <Compile Include="Types\Challenger.cs" />
-    <Compile Include="Types\Challenges.cs" />
+    <Compile Include="Types\ChallengesData.cs" />
     <Compile Include="Types\Chat.cs" />
     <Compile Include="Types\ChatData.cs" />
     <Compile Include="Types\CheckCount.cs" />

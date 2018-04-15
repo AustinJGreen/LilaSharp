@@ -10,14 +10,14 @@ namespace LilaSharp.Events
         /// <value>
         /// The challenges.
         /// </value>
-        public Challenges Challenges { get; set; }
+        public ChallengesData Challenges { get; set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ChallengesEvent"/> class.
         /// </summary>
         /// <param name="client">The client.</param>
         /// <param name="challenges">The challenges.</param>
-        public ChallengesEvent(LilaClient client, Challenges challenges) : base(client)
+        public ChallengesEvent(LilaClient client, ChallengesData challenges) : base(client)
         {
             Challenges = challenges;
         }

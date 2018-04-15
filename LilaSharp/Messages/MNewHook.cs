@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace LilaSharp.Messages
 {
-    public class MNewHook : IMessage
+    public class MNewHook : ITypeMessage
     {
         public string Type => "had";
 

@@ -3,11 +3,11 @@ using Newtonsoft.Json;
 
 namespace LilaSharp.Messages
 {
-    public class MHooks : IMessage
+    public class MHooks : ITypeMessage
     {
         public string Type => "hooks";
 
         [JsonProperty("d")]
-        public Hook[] Hooks { get; set; }
+        public Hook[] HookList { get; set; }
     }
 }

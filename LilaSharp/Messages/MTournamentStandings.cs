@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace LilaSharp.Messages
 {
-    public class MTournamentStandings : IMessage
+    public class MTournamentStandings : ITypeMessage
     {
         public string Type => "tourStanding";
 

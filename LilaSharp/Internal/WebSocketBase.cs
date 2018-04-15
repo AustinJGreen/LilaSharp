@@ -12,8 +12,11 @@ namespace LilaSharp.Internal
 {
     internal abstract class WebSocketBase : WebSocketInternal
     {
+        protected object typeLock;
+        protected object versionLock;
         protected List<LilaTimer<Packet>> schedulers;
-        protected Dictionary<string, Delegate> handlers;
+        protected Dictionary<string, Delegate> typeHandlers;
+        protected List<TypeDelegate> versionHandlers;
         protected JsonSerializerSettings jsonSettings;
 
         /// <summary>
@@ -27,8 +30,12 @@ namespace LilaSharp.Internal
         /// <param name="name">The name.</param>
         protected WebSocketBase(string name) : base(name)
         {
+            typeLock = new object();
+            versionLock = new object();
+
             schedulers = new List<LilaTimer<Packet>>();
-            handlers = new Dictionary<string, Delegate>();
+            typeHandlers = new Dictionary<string, Delegate>();
+            versionHandlers = new List<TypeDelegate>();
 
             jsonSettings = new JsonSerializerSettings
             {
@@ -106,23 +113,50 @@ namespace LilaSharp.Internal
                     log.ConditionalDebug("Received {0}", jobj.ToString());
                 }
 
-                if (handlers.ContainsKey(type))
+                //Lock whole statement for futureproof protection against handlers being removed
+                lock (typeLock)
                 {
-                    Type[] delegateArgs = handlers[type].GetType().GetGenericArguments();
-
-                    try
+                    if (typeHandlers.ContainsKey(type))
                     {
-                        object obj = jobj.ToObject(delegateArgs[0]);
-                        Task handlingTask = Task.Run(() => handlers[type].DynamicInvoke(this, obj));
+                        Type[] delegateArgs = typeHandlers[type].GetType().GetGenericArguments();
+                        try
+                        {
+                            object obj = jobj.ToObject(delegateArgs[0]);
+                            Task.Run(() => typeHandlers[type].DynamicInvoke(this, obj));
+                        }
+                        catch (Exception ex)
+                        {
+                            log.Error(ex, "Error while handling \"{0}\". Check the IMessage json structure.", type);
+                        }
                     }
-                    catch (Exception ex)
+                    else
                     {
-                        log.Error(ex, "Error while handling \"{0}\". Check the IMessage json structure.", type);
+                        log.Warn("Unhandled message: {0}", jobj.ToString());
                     }
                 }
-                else
+            }
+            else if (jobj.TryGetValue("v", out JToken versionToken))
+            {
+                lock (versionLock)
                 {
-                    log.Warn("Unhandled message: {0}", jobj.ToString());
+                    int parseErrors = 0;
+                    for (int i = 0; i < versionHandlers.Count; i++)
+                    {
+                        try
+                        {
+                            object obj = jobj.ToObject(versionHandlers[i].Key);
+                            Task.Run(() => versionHandlers[i].Value.DynamicInvoke(this, obj));
+                        }
+                        catch
+                        {
+                            parseErrors++;
+                        }
+                    }
+
+                    if (parseErrors == versionHandlers.Count)
+                    {
+                        log.ConditionalDebug("No handlers were able to parse the IVersionedMessage.");
+                    }
                 }
             }
         }
@@ -146,9 +180,9 @@ namespace LilaSharp.Internal
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="handler">The handler.</param>
-        public void AddHandler<T>(MessageHandler<T> handler) where T : IMessage
+        public void AddHandler<T>(MessageHandler<T> handler) where T : ITypeMessage
         {
-            IMessage message = null;
+            ITypeMessage message = null;
 
             try
             {
@@ -156,11 +190,33 @@ namespace LilaSharp.Internal
             }
             catch (MissingMethodException mme)
             {
-                log.Error(mme, "IMessage type must have a zero argument constructor.");
+                log.Error(mme, "ITypeMessage type must have a zero argument constructor.");
                 return;
             }
 
-            handlers.Add(message.Type, handler);
+            lock (typeLock)
+            {
+                typeHandlers.Add(message.Type, handler);
+            }
+        }
+
+        /// <summary>
+        /// Adds a delegate to handle messages with version information but no type
+        /// </summary>
+        /// <typeparam name="T">The version type event</typeparam>
+        /// <param name="handler">The handler.</param>
+        public void AddVersionHandler<T>(MessageHandler<T> handler) where T : IVersionedMessage
+        {
+            TypeDelegate td = new TypeDelegate()
+            {
+                Key = typeof(T),
+                Value = handler
+            };
+
+            lock (versionLock)
+            {
+                versionHandlers.Add(td);
+            }
         }
 
         /// <summary>

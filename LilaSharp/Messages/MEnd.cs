@@ -2,7 +2,7 @@
 
 namespace LilaSharp.Messages
 {
-    public class MEnd : IGameMessage
+    public class MEnd : ITypeMessage, IVersionedMessage
     {
         public string Type => "end";
 

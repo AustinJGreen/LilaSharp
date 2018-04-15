@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace LilaSharp.Messages
 {
-    public class MCrowd : IMessage
+    public class MCrowd : ITypeMessage
     {
         public string Type => "crowd";
 

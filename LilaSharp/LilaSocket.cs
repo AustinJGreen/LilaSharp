@@ -171,9 +171,19 @@ namespace LilaSharp
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="handler">The handler.</param>
-        internal void AddHandler<T>(MessageHandler<T> handler) where T : IMessage
+        internal void AddHandler<T>(MessageHandler<T> handler) where T : ITypeMessage
         {
             socket.AddHandler(handler);
+        }
+
+        /// <summary>
+        /// Adds a delegate to handle messages with version information but no type
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="handler">The handler.</param>
+        internal void AddVersionHandler<T>(MessageHandler<T> handler) where T : IVersionedMessage
+        {
+            socket.AddVersionHandler(handler);
         }
 
         /// <summary>

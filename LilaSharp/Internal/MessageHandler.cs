@@ -8,5 +8,5 @@ namespace LilaSharp.Internal
     /// <typeparam name="T"></typeparam>
     /// <param name="ws">The websocket.</param>
     /// <param name="message">The message.</param>
-    internal delegate void MessageHandler<T>(WebSocketBase ws, T message) where T : IMessage;
+    internal delegate void MessageHandler<T>(WebSocketBase ws, T message);
 } 

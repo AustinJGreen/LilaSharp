@@ -53,6 +53,6 @@ namespace LilaSharp.Types
         public long CreatedAt { get; set; }
 
         [JsonProperty("opening")]
-        public Opening opening { get; set; }
+        public Opening Opening { get; set; }
     }
 }

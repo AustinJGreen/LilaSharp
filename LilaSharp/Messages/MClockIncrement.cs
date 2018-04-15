@@ -3,14 +3,14 @@ using Newtonsoft.Json;
 
 namespace LilaSharp.Messages
 {
-    public class MClockIncrement : IGameMessage
+    public class MClockIncrement : ITypeMessage, IVersionedMessage
     {
         public string Type => "clockInc";
 
         public int Version { get; set; }
 
         [JsonProperty("d")]
-        public ClockIncrement Data { get; set; }
+        public MClockIncrement Data { get; set; }
 
         
     }

@@ -3,13 +3,13 @@ using Newtonsoft.Json;
 
 namespace LilaSharp.Messages
 {
-    public class MEndData : IGameMessage
+    public class MEndData : ITypeMessage, IVersionedMessage
     {
         public int Version { get; set; }
 
         public string Type => "endData";
 
         [JsonProperty("d")]
-        public EndData Data { get; set; }
+        public MEndData Data { get; set; }
     }
 }

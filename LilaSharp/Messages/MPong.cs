@@ -2,7 +2,7 @@
 
 namespace LilaSharp.Messages
 {
-    public class MPong : IMessage
+    public class MPong : ITypeMessage
     {
         public string Type => "n";
 

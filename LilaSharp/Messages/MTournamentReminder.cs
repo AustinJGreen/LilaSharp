@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace LilaSharp.Messages
 {
-    public class MTournamentReminder : IMessage
+    public class MTournamentReminder : ITypeMessage
     {
         public string Type => "tournamentReminder";
 

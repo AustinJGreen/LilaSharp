@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace LilaSharp.Messages
 {
-    public class MReload : IGameMessage
+    public class MReload : ITypeMessage, IVersionedMessage
     {
         public string Type => "reload";
 

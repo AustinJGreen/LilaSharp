@@ -1,6 +1,6 @@
 ﻿namespace LilaSharp.Messages
 {
-    public class MResync : IMessage
+    public class MResync : ITypeMessage
     {
         public string Type => "resync";
     }

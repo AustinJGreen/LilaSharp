@@ -2,7 +2,7 @@
 
 namespace LilaSharp.Messages
 {
-    class MServerLatency : IMessage
+    class MServerLatency : ITypeMessage
     {
         public string Type => "mlat";
 

@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace LilaSharp.Messages
 {
-    public class MRoundRedirect : IGameMessage
+    public class MRoundRedirect : ITypeMessage, IVersionedMessage
     {
         public int Version { get; set; }
 

@@ -3,11 +3,11 @@ using Newtonsoft.Json;
 
 namespace LilaSharp.Messages
 {
-    public class MChallenges : IMessage
+    public class MChallenges : ITypeMessage
     {
         public string Type { get { return "challenges"; } }
 
         [JsonProperty("d")]
-        public Challenges Challenges { get; set; }
+        public ChallengesData Data { get; set; }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace LilaSharp.Messages
 {
-    interface IGameMessage : IMessage
+    public interface IVersionedMessage : IMessage
     {
         [JsonProperty("v")]
         int Version { get; set; }

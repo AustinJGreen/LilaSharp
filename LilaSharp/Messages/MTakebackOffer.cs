@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace LilaSharp.Messages
 {
-    public class MTakebackOffer : IGameMessage
+    public class MTakebackOffer : ITypeMessage, IVersionedMessage
     {
         public int Version { get; set; }
 

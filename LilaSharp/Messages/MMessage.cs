@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace LilaSharp.Messages
 {
-    public class MMessage : IGameMessage
+    public class MMessage : ITypeMessage, IVersionedMessage
     {
         public string Type => "message";
 

@@ -2,7 +2,7 @@
 
 namespace LilaSharp.Messages
 {
-    public class MTournamentRedirect : IMessage
+    public class MTournamentRedirect : ITypeMessage
     {
         public string Type => "redirect";
 

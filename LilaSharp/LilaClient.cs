@@ -23,8 +23,6 @@ namespace LilaSharp
     /// <seealso cref="System.IDisposable" />
     public sealed class LilaClient : IDisposable
     {
-        //TODO: "Language subdomains are deprecated and will be discontinued" remove subdomains
-
         /// <summary>
         /// Statically initializes the <see cref="LilaClient"/> class
         /// </summary>
@@ -870,9 +868,9 @@ namespace LilaSharp
         /// </summary>
         /// <param name="ws">The websocket.</param>
         /// <param name="message">The message.</param>
-        private void OnChallenges(WebSocketBase ws, MChallenges message)
+        private void OnChallenges(WebSocketBase ws, Messages.MChallenges message)
         {
-            Events.FireEventAsync(Events._onChallenges, new ChallengesEvent(this, message.Challenges));
+            Events.FireEventAsync(Events._onChallenges, new ChallengesEvent(this, message.Data));
         }
 
         /// <summary>
@@ -994,7 +992,7 @@ namespace LilaSharp
                 }
             }
 
-            message.Tournaments = ids;
+            message.TournamentEntries = ids;
             Events.FireEventAsync(Events._onTournaments, new TournamentsEvent(this, ids));
         }
 
@@ -1003,7 +1001,7 @@ namespace LilaSharp
         /// </summary>
         /// <param name="ws">The websocket.</param>
         /// <param name="message">The message.</param>
-        private void OnFeatured(WebSocketBase ws, MFeatured message)
+        private void OnFeatured(WebSocketBase ws, Messages.MFeatured message)
         {
         }
 
@@ -1115,10 +1113,10 @@ namespace LilaSharp
             lock (hookLock)
             {
                 hooks.Clear();
-                for (int i = 0; i < message.Hooks.Length; i++)
+                for (int i = 0; i < message.HookList.Length; i++)
                 {
-                    hooks.Add(message.Hooks[i]);
-                    Events.FireEventAsync(Events._onNewHook, new HookEvent(this, message.Hooks[i]));
+                    hooks.Add(message.HookList[i]);
+                    Events.FireEventAsync(Events._onNewHook, new HookEvent(this, message.HookList[i]));
                 }
             }
         }

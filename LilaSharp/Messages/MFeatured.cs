@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace LilaSharp.Messages
 {
-    public class MFeatured : IMessage
+    public class MFeatured : ITypeMessage
     {
         public string Type => "featured";
 

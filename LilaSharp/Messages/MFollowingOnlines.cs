@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace LilaSharp.Messages
 {
-    public class MFollowingOnlines : IMessage
+    public class MFollowingOnlines : ITypeMessage
     {
         public string Type => "following_onlines";
 

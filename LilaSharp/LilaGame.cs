@@ -6,8 +6,6 @@ using LilaSharp.Packets;
 using LilaSharp.Types;
 using NLog;
 using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace LilaSharp
 {
@@ -135,13 +133,14 @@ namespace LilaSharp
 
             socket.AddHandler<MPong>(OnPong);
             socket.AddHandler<MMove>(OnMove);
-            socket.AddHandler<MGameEvent>(OnGameEvent);
+            socket.AddHandler<MGameMessages>(OnGameEvent);
             socket.AddHandler<MReload>(OnReload);
             socket.AddHandler<MMessage>(OnMessage);
             socket.AddHandler<MEnd>(OnEnd);
             socket.AddHandler<MEndData>(OnEndData);
             socket.AddHandler<MTakebackOffer>(OnTakebackOffer);
             socket.AddHandler<MAck>(OnAck);
+            socket.AddHandler<MGone>(OnGone);
             socket.AddHandler<MCrowd>(OnCrowd);
             socket.AddHandler<MClock>(OnClock);
             socket.AddHandler<MChallenges>(OnChallenges);
@@ -154,6 +153,8 @@ namespace LilaSharp
             socket.AddHandler<MTournamentStandings>(OnStandings);
             socket.AddHandler<MDeployPre>(OnDeployPre);
 
+            socket.AddVersionHandler<MVersion>(OnVersion);
+
             SendPing();
             socket.SchedulePacket(gamePing, 1000);
 
@@ -165,7 +166,7 @@ namespace LilaSharp
         /// </summary>
         /// <param name="message">The message containing version information.</param>
         /// <returns>True if updated; otherwise false.</returns>
-        private bool ProcessGameMessage(IGameMessage message)
+        private bool ProcessGameMessage(IVersionedMessage message)
         {
             int v = message.Version;
             if (v == Version + 1) //Next version
@@ -180,6 +181,16 @@ namespace LilaSharp
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Called when raw version is received.
+        /// </summary>
+        /// <param name="ws">The websocket.</param>
+        /// <param name="message">The message.</param>
+        private void OnVersion(WebSocketBase ws, MVersion message)
+        {
+            ProcessGameMessage(message);
         }
 
         /// <summary>
@@ -212,7 +223,7 @@ namespace LilaSharp
         /// </summary>
         /// <param name="ws">The websocket.</param>
         /// <param name="message">The message.</param>
-        private void OnChallenges(WebSocketBase ws, MChallenges message)
+        private void OnChallenges(WebSocketBase ws, Messages.MChallenges message)
         {
             
         }
@@ -225,6 +236,15 @@ namespace LilaSharp
         private void OnAck(WebSocketBase ws, MAck message)
         {
             
+        }
+
+        /// <summary>
+        /// Called when opponent leaves or rejoins game.
+        /// </summary>
+        /// <param name="ws">The websocket.</param>
+        /// <param name="message">The message.</param>
+        private void OnGone(WebSocketBase ws, MGone message)
+        {
         }
 
         /// <summary>
@@ -242,7 +262,7 @@ namespace LilaSharp
         /// </summary>
         /// <param name="ws">The websocket.</param>
         /// <param name="message">The message.</param>
-        private void OnCheckCount(WebSocketBase ws, MCheckCount message)
+        private void OnCheckCount(WebSocketBase ws, Messages.MCheckCount message)
         {
             ProcessGameMessage(message);
         }
@@ -265,7 +285,7 @@ namespace LilaSharp
         /// </summary>
         /// <param name="ws">The websocket.</param>
         /// <param name="message">The message.</param>
-        private void OnClock(WebSocketBase ws, MClock message)
+        private void OnClock(WebSocketBase ws, Messages.MClock message)
         {
             ProcessGameMessage(message);
             curClock = message.Data;
@@ -286,7 +306,7 @@ namespace LilaSharp
         /// </summary>
         /// <param name="ws">The websocket.</param>
         /// <param name="message">The message.</param>
-        private void OnEndData(WebSocketBase ws, MEndData message)
+        private void OnEndData(WebSocketBase ws, Messages.MEndData message)
         {
             ProcessGameMessage(message);
         }
@@ -366,7 +386,7 @@ namespace LilaSharp
         /// </summary>
         /// <param name="ws">The websocket.</param>
         /// <param name="message">The message.</param>
-        private void OnClockInc(WebSocketBase ws, MClockIncrement message)
+        private void OnClockInc(WebSocketBase ws, Messages.MClockIncrement message)
         {
             ProcessGameMessage(message);
         }
@@ -376,7 +396,7 @@ namespace LilaSharp
         /// </summary>
         /// <param name="ws">The websocket.</param>
         /// <param name="message">The message.</param>
-        private void OnMessage(WebSocketBase ws, MMessage message)
+        private void OnMessage(WebSocketBase ws, Messages.MMessage message)
         {
             ProcessGameMessage(message);
         }
@@ -386,7 +406,7 @@ namespace LilaSharp
         /// </summary>
         /// <param name="ws">The websocket.</param>
         /// <param name="message">The message.</param>
-        private void OnGameEvent(WebSocketBase ws, MGameEvent message)
+        private void OnGameEvent(WebSocketBase ws, MGameMessages message)
         {
             for (int i = 0; i < message.Data.Count; i++)
             {
@@ -464,6 +484,28 @@ namespace LilaSharp
             if (socket != null)
             {
                 socket.Send(new PResign());
+            }
+        }
+
+        /// <summary>
+        /// Aborts the game.
+        /// </summary>
+        public void Abort()
+        {
+            if (socket != null)
+            {
+                socket.Send(new PAbort());
+            }
+        }
+
+        /// <summary>
+        /// Adds time to opponents clock.
+        /// </summary>
+        public void AddTime()
+        {
+            if (socket != null)
+            {
+                socket.Send(new PMoreTime());
             }
         }
 

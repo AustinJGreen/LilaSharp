@@ -116,7 +116,7 @@ namespace LilaSharp
         /// </summary>
         /// <param name="message">The message containing version information.</param>
         /// <returns>True if updated; otherwise false.</returns>
-        private bool ProcessGameMessage(IGameMessage message)
+        private bool ProcessGameMessage(IVersionedMessage message)
         {
             int v = message.Version;
             if (v == Version + 1) //Next version
@@ -181,7 +181,7 @@ namespace LilaSharp
         /// </summary>
         /// <param name="ws">The websocket.</param>
         /// <param name="message">The message.</param>
-        private void OnMessage(WebSocketBase ws, MMessage message)
+        private void OnMessage(WebSocketBase ws, Messages.MMessage message)
         {
             ProcessGameMessage(message);
         }
@@ -258,7 +258,7 @@ namespace LilaSharp
         /// </summary>
         /// <param name="ws">The websocket.</param>
         /// <param name="message">The message.</param>
-        private void OnChallenges(WebSocketBase ws, MChallenges message)
+        private void OnChallenges(WebSocketBase ws, Messages.MChallenges message)
         {
         }
 

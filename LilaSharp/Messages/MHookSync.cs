@@ -2,7 +2,7 @@
 
 namespace LilaSharp.Messages
 {
-    public class MHookSync : IMessage
+    public class MHookSync : ITypeMessage
     {
         public string Type => "hli";
 

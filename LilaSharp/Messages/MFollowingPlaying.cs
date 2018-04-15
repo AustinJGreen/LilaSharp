@@ -2,7 +2,7 @@
 
 namespace LilaSharp.Messages
 {
-    public class MFollowingPlaying : IMessage
+    public class MFollowingPlaying : ITypeMessage
     {
         public string Type => "following_playing";
 

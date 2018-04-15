@@ -2,7 +2,7 @@
 
 namespace LilaSharp.Messages
 {
-    public class MSimuls : IMessage
+    public class MSimuls : ITypeMessage
     {
         public string Type => "simuls";
 

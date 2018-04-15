@@ -2,7 +2,7 @@
 
 namespace LilaSharp.Messages
 {
-    public class MBerserk : IGameMessage
+    public class MBerserk : ITypeMessage, IVersionedMessage
     {
         public string Type => "berserk";
 

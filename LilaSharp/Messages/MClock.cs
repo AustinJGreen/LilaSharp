@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace LilaSharp.Messages
 {
-    public class MClock : IGameMessage
+    public class MClock : ITypeMessage, IVersionedMessage
     {
         public int Version { get; set; }
 

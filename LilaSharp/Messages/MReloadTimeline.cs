@@ -1,6 +1,6 @@
 ﻿namespace LilaSharp.Messages
 {
-    public class MReloadTimeline : IMessage
+    public class MReloadTimeline : ITypeMessage
     {
         public string Type => "reload_timeline";
     }

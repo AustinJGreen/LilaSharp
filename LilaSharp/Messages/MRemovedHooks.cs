@@ -2,7 +2,7 @@
 
 namespace LilaSharp.Messages
 {
-    public class MRemovedHooks : IMessage
+    public class MRemovedHooks : ITypeMessage
     {
         public string Type => "hrm";
 

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace LilaSharp.Messages
 {
-    public class MTournaments : IMessage
+    public class MTournaments : ITypeMessage
     {
         public string Type => "tournaments";
 
@@ -12,6 +12,6 @@ namespace LilaSharp.Messages
         public string Html { get; set; }
 
         [JsonIgnore] //Put in by handler for more information, parsed from html
-        public List<TournamentHtmlEntry> Tournaments { get; set; }
+        public List<TournamentHtmlEntry> TournamentEntries { get; set; }
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace LilaSharp.Types
 {
-    public class Challenges
+    public class ChallengesData
     {
         [JsonProperty("in")]
         public List<Challenge> In { get; set; }
