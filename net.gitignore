@@ -1,9 +1,6 @@
-# Nuget
 *.ide
 *.nupkg
 *.nuspec
-
-# Net
 *.pdb
 *.log
 *.exe
