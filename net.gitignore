@@ -1,0 +1,13 @@
+*.ide
+*.nupkg
+*.nuspec
+*.pdb
+*.log
+*.exe
+*.exe.config
+*.manifest
+*.cache
+*.copycomplete
+*.txt
+*.ide
+*.suo
