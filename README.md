@@ -11,3 +11,4 @@
 - Account operations
 - Better seek and pool functions
 - Better anonymous support
+- Watching games
