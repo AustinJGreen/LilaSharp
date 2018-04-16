@@ -3,7 +3,7 @@
 
 - [NuGet Package](https://www.nuget.org/packages/LilaSharp)
 
-## In Progress
+## Features In Progress
 - Simul Support
 - Easier move
 - Average lag
