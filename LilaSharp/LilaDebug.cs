@@ -3,7 +3,7 @@
     /// <summary>
     /// Class for simplifying object debugging.
     /// </summary>
-    public abstract class LilaDebug
+    internal abstract class LilaDebug
     {
         /// <summary>
         /// Property used to debug an individual object

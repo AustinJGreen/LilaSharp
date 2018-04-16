@@ -109,10 +109,10 @@ namespace LilaSharp
         /// <summary>
         /// Sends the specified data.
         /// </summary>
-        /// <param name="data">The data.</param>
-        public void Send(string data)
+        /// <param name="type">The data.</param>
+        public void SendType(string type)
         {
-            socket.Send(data);
+            socket.Send(new Packet(type));
         }
 
         /// <summary>

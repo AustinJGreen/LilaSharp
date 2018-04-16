@@ -66,8 +66,6 @@
     <Compile Include="Messages\ITypeMessage.cs" />
     <Compile Include="Messages\MGone.cs" />
     <Compile Include="Messages\MVersion.cs" />
-    <Compile Include="Packets\PAbort.cs" />
-    <Compile Include="Packets\PMoreTime.cs" />
     <Compile Include="Types\Speed.cs" />
     <Compile Include="Events\ChallengesEvent.cs" />
     <Compile Include="Events\ConnectEvent.cs" />
@@ -138,7 +136,6 @@
     <Compile Include="Messages\MPong.cs" />
     <Compile Include="Internal\PacketResolver.cs" />
     <Compile Include="Messages\MTournamentStandings.cs" />
-    <Compile Include="Packets\PBerserk.cs" />
     <Compile Include="Packets\PData.cs" />
     <Compile Include="Packets\PHookIn.cs" />
     <Compile Include="Packets\PIdle.cs" />
@@ -150,7 +147,6 @@
     <Compile Include="Packets\PPingVersion.cs" />
     <Compile Include="Packets\PResign.cs" />
     <Compile Include="Packets\PServerLatency.cs" />
-    <Compile Include="Packets\PString.cs" />
     <Compile Include="Packets\PTalk.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Internal\StringEngine.cs" />

@@ -472,7 +472,7 @@ namespace LilaSharp
             //TODO: add checks for tournament
             if (socket != null)
             {
-                socket.Send(new PBerserk());
+                socket.SendType("berserk");
             }
         }
 
@@ -483,7 +483,7 @@ namespace LilaSharp
         {
             if (socket != null)
             {
-                socket.Send(new PResign());
+                socket.SendType("resign");
             }
         }
 
@@ -494,7 +494,7 @@ namespace LilaSharp
         {
             if (socket != null)
             {
-                socket.Send(new PAbort());
+                socket.SendType("abort");
             }
         }
 
@@ -505,7 +505,7 @@ namespace LilaSharp
         {
             if (socket != null)
             {
-                socket.Send(new PMoreTime());
+                socket.SendType("moretime");
             }
         }
 
@@ -527,7 +527,7 @@ namespace LilaSharp
         {
             if (socket != null)
             {
-                socket.Send(new PString("rematch-yes"));
+                socket.SendType("rematch-yes");
             }
         }
 
@@ -538,7 +538,7 @@ namespace LilaSharp
         {
             if (socket != null)
             {
-                socket.Send(new PString("rematch-no"));
+                socket.SendType("rematch-no");
             }
         }
     }
