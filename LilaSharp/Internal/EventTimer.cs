@@ -4,7 +4,7 @@ using System;
 using System.Diagnostics;
 using System.Threading;
 
-namespace LilaSharp
+namespace LilaSharp.Internal
 {
     /// <summary>
     /// Timer implementation for handling callbacks and scheduling
@@ -12,7 +12,7 @@ namespace LilaSharp
     /// <typeparam name="T">Type used in callback. <see cref="LilaSharp.Delegates.LilaCallback{T}"/></typeparam>
     /// <seealso cref="LilaSharp.LilaDebug" />
     /// <seealso cref="System.IDisposable" />
-    internal class LilaTimer<T> : LilaDebug, IDisposable
+    internal class EventTimer<T> : LilaDebug, IDisposable
     {
         private static Logger log = LogManager.GetCurrentClassLogger();
 
@@ -156,13 +156,13 @@ namespace LilaSharp
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="LilaTimer{T}"/> class.
+        /// Initializes a new instance of the <see cref="EventTimer{T}"/> class.
         /// </summary>
         /// <param name="callback">The callback.</param>
         /// <param name="period">The period between ticks in milliseconds.</param>
         /// <param name="data">The data.</param>
         /// <exception cref="ArgumentNullException">callback - Callback cannot be null</exception>
-        public LilaTimer(LilaCallback<T> callback, int period, T data)
+        public EventTimer(LilaCallback<T> callback, int period, T data)
         {
             this.callback = callback ?? throw new ArgumentNullException("callback", "Callback cannot be null");
 

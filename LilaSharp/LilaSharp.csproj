@@ -97,7 +97,7 @@
     <Compile Include="LilaRoutes.cs" />
     <Compile Include="LilaSettings.cs" />
     <Compile Include="LilaSocket.cs" />
-    <Compile Include="LilaTimer.cs" />
+    <Compile Include="Internal\EventTimer.cs" />
     <Compile Include="LilaTournament.cs" />
     <Compile Include="Internal\Message.cs" />
     <Compile Include="Internal\MessageHandler.cs" />

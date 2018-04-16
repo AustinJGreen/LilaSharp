@@ -14,7 +14,7 @@ namespace LilaSharp.Internal
     {
         protected object typeLock;
         protected object versionLock;
-        protected List<LilaTimer<Packet>> schedulers;
+        protected List<EventTimer<Packet>> schedulers;
         protected Dictionary<string, Delegate> typeHandlers;
         protected List<TypeDelegate> versionHandlers;
         protected JsonSerializerSettings jsonSettings;
@@ -33,7 +33,7 @@ namespace LilaSharp.Internal
             typeLock = new object();
             versionLock = new object();
 
-            schedulers = new List<LilaTimer<Packet>>();
+            schedulers = new List<EventTimer<Packet>>();
             typeHandlers = new Dictionary<string, Delegate>();
             versionHandlers = new List<TypeDelegate>();
 
@@ -256,7 +256,7 @@ namespace LilaSharp.Internal
         {
             if (schedulers != null)
             {
-                LilaTimer<Packet> timer = new LilaTimer<Packet>(OnPacketScheduled, period, packet)
+                EventTimer<Packet> timer = new EventTimer<Packet>(OnPacketScheduled, period, packet)
                 {
                     Debug = Debug
                 };
