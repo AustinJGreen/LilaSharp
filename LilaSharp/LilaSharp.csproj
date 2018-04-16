@@ -56,16 +56,17 @@
     <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Api\GameForm.cs" />
-    <Compile Include="Api\HookResult.cs" />
-    <Compile Include="Api\Response.cs" />
-    <Compile Include="Api\SeekResponse.cs" />
+    <Compile Include="API\GameForm.cs" />
+    <Compile Include="API\HookResult.cs" />
+    <Compile Include="API\Response.cs" />
+    <Compile Include="API\SeekResponse.cs" />
     <Compile Include="Delegates\LilaEventHandler.cs" />
     <Compile Include="Internal\SocketDisconnectArgs.cs" />
     <Compile Include="Internal\TypeDelegate.cs" />
     <Compile Include="Messages\ITypeMessage.cs" />
     <Compile Include="Messages\MGone.cs" />
     <Compile Include="Messages\MVersion.cs" />
+    <Compile Include="Packets\PStartWatching.cs" />
     <Compile Include="Types\Speed.cs" />
     <Compile Include="Events\ChallengesEvent.cs" />
     <Compile Include="Events\ConnectEvent.cs" />
@@ -145,13 +146,12 @@
     <Compile Include="Packets\PP.cs" />
     <Compile Include="Packets\PPing.cs" />
     <Compile Include="Packets\PPingVersion.cs" />
-    <Compile Include="Packets\PResign.cs" />
     <Compile Include="Packets\PServerLatency.cs" />
     <Compile Include="Packets\PTalk.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Internal\StringEngine.cs" />
     <Compile Include="Internal\TaskSocket.cs" />
-    <Compile Include="Api\Seek.cs" />
+    <Compile Include="API\Seek.cs" />
     <Compile Include="Types\Challenge.cs" />
     <Compile Include="Types\Challenger.cs" />
     <Compile Include="Types\ChallengesData.cs" />

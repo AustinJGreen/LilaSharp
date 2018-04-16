@@ -2,6 +2,9 @@
 
 namespace LilaSharp.API
 {
+    /// <summary>
+    /// API Response class
+    /// </summary>
     public class Response
     {
         /// <summary>

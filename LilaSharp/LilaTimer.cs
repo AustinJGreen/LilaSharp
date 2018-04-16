@@ -9,10 +9,10 @@ namespace LilaSharp
     /// <summary>
     /// Timer implementation for handling callbacks and scheduling
     /// </summary>
-    /// <typeparam name="T">Type used in callback. <see cref="LilaSharp.LilaCallback{T}"/></typeparam>
+    /// <typeparam name="T">Type used in callback. <see cref="LilaSharp.Delegates.LilaCallback{T}"/></typeparam>
     /// <seealso cref="LilaSharp.LilaDebug" />
     /// <seealso cref="System.IDisposable" />
-    public class LilaTimer<T> : LilaDebug, IDisposable
+    internal class LilaTimer<T> : LilaDebug, IDisposable
     {
         private static Logger log = LogManager.GetCurrentClassLogger();
 

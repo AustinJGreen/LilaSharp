@@ -8,6 +8,12 @@ namespace LilaSharp.Packets
     /// <seealso cref="LilaSharp.Packets.Packet" />
     public class PTalk : Packet
     {
+        /// <summary>
+        /// Gets the type.
+        /// </summary>
+        /// <value>
+        /// The type.
+        /// </value>
         public override string Type => "talk";
 
         /// <summary>
