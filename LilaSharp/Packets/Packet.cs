@@ -60,7 +60,7 @@ namespace LilaSharp.Packets
         /// Initializes a new instance of the <see cref="Packet"/> class.
         /// </summary>
         /// <param name="type">The type.</param>
-        public Packet(string type)
+        public Packet(string type) : this()
         {
             this.type = type;
         }

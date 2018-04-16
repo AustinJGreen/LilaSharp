@@ -1,5 +1,8 @@
-﻿namespace LilaSharp.Api
+﻿namespace LilaSharp.API
 {
+    /// <summary>
+    /// Class containing information for a seek
+    /// </summary>
     public class Seek
     {
         /// <summary>

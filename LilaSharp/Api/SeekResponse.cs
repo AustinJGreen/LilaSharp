@@ -1,7 +1,11 @@
 ﻿using Newtonsoft.Json;
 
-namespace LilaSharp.Api
+namespace LilaSharp.API
 {
+    /// <summary>
+    /// Response for seek requests
+    /// </summary>
+    /// <seealso cref="LilaSharp.API.Response" />
     public class SeekResponse : Response
     {
         /// <summary>

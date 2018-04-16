@@ -1,5 +1,5 @@
 ﻿using HtmlAgilityPack;
-using LilaSharp.Api;
+using LilaSharp.API;
 using LilaSharp.Events;
 using LilaSharp.Internal;
 using LilaSharp.Messages;
@@ -440,6 +440,23 @@ namespace LilaSharp
 
             tournamentCon.Dispose();
             return false;
+        }
+
+        /// <summary>
+        /// Watches a game.
+        /// </summary>
+        /// <param name="id">The game identifier.</param>
+        public void WatchGame(string id)
+        {
+            if (_disposing)
+            {
+                return;
+            }
+
+            if (lobbyCon != null)
+            {
+                lobbyCon.Send(new PStartWatching(id));
+            }
         }
 
         /// <summary>

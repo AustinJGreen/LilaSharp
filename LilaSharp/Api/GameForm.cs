@@ -1,4 +1,4 @@
-﻿namespace LilaSharp.Api
+﻿namespace LilaSharp.API
 {
     //TODO: change  Variant, Color to enums
     public class GameForm

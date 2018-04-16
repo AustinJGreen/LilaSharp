@@ -96,7 +96,6 @@ namespace LilaSharp
             {
                 if (socket != null)
                 {
-                    Resign();
                     socket.Dispose();
                     socket = null;
                 }
@@ -449,6 +448,20 @@ namespace LilaSharp
             if (socket != null)
             {
                 socket.Send(move);
+            }
+        }
+
+        /// <summary>
+        /// Plays a move.
+        /// </summary>
+        /// <param name="uci">The move in uci format.</param>
+        public void PlayMove(string uci)
+        {
+            if (socket != null)
+            {
+                PMove move = new PMove() { Uci = uci, Lag = (int)Client.ClientLag };
+                PData<PMove> pmove = new PData<PMove>(move);
+                socket.Send(pmove);
             }
         }
 

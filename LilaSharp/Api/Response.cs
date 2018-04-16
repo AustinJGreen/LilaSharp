@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace LilaSharp.Api
+namespace LilaSharp.API
 {
     public class Response
     {
