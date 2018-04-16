@@ -35,7 +35,7 @@ namespace LilaSharp.Types
 
         public string GetID()
         {
-            return Board.ID;
+            return Board.Id;
         }
     }
 }

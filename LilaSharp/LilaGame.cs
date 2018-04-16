@@ -276,7 +276,7 @@ namespace LilaSharp
         {
             if (ProcessGameMessage(message) && Client.Remove(this))
             {
-                Client.JoinGame(message.Redirect.ID);         
+                Client.JoinGame(message.Redirect.Id);         
             }
         }
 

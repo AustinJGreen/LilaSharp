@@ -457,7 +457,7 @@ namespace LilaSharp
             {
                 if (gameCons.Count == 0 && lobbyCon != null) //Limit games to one for now
                 {
-                    lobbyCon.Send(new PJoin(hook.ID));
+                    lobbyCon.Send(new PJoin(hook.Id));
                 }
             }
         }
@@ -882,7 +882,7 @@ namespace LilaSharp
         {
             if (message.Redirect != null)
             {
-                JoinGame(message.Redirect.ID);
+                JoinGame(message.Redirect.Id);
             }
         }
 
@@ -1136,7 +1136,7 @@ namespace LilaSharp
                     bool remove = true;
                     for (int j = 0; j < sync.Length; j++)
                     {
-                        if (hooks[i].ID.Equals(sync[j]))
+                        if (hooks[i].Id.Equals(sync[j]))
                         {
                             remove = false;
                             break;
@@ -1180,7 +1180,7 @@ namespace LilaSharp
                     bool remove = false;
                     for (int j = 0; j < ids.Length; j++)
                     {
-                        if (hooks[i].ID.Equals(ids[j]))
+                        if (hooks[i].Id.Equals(ids[j]))
                         {
                             remove = true;
                             break;

@@ -5,7 +5,7 @@ namespace LilaSharp.Types
     public class ServerHook : IHook
     {
         [JsonProperty("id")]
-        public string ID { get; set; }
+        public string Id { get; set; }
 
         [JsonProperty("username")]
         public string Username { get; set; }
