@@ -2,6 +2,9 @@
 
 namespace LilaSharp.Events
 {
+    /// <summary>
+    /// Event for when a move is received
+    /// </summary>
     public class LilaGameMoveEvent : LilaGameEvent
     {
         /// <summary>

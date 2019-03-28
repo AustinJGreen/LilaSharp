@@ -10,7 +10,7 @@ namespace LilaSharpExample
         {
             using (LilaClient client = new LilaClient())
             {
-                client.Events.OnChallenges += OnChallenges;
+                client.Events.OnNewHook += OnNewHook;
 
                 //Login as anonymous
                 client.Login();
@@ -20,9 +20,14 @@ namespace LilaSharpExample
             }
         }
 
+        private static void OnNewHook(object sender, HookEvent e)
+        {
+            Console.WriteLine("Hook received {0}", e.Hook.Rating);
+        }
+
         private static void OnChallenges(object sender, ChallengesEvent e)
         {
-            Console.WriteLine("Challenges received.");
+            
         }
     }
 }

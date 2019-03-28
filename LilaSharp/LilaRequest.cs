@@ -26,10 +26,24 @@ namespace LilaSharp
 
         private static Logger log = LogManager.GetCurrentClassLogger();
 
+        /// <summary>
+        /// LilaRequest content types for accept headers
+        /// </summary>
         public enum ContentType
         {
+            /// <summary>
+            /// Any content accepted
+            /// </summary>
             Any,
+
+            /// <summary>
+            /// Only html data
+            /// </summary>
             Html,
+
+            /// <summary>
+            /// Only json responses
+            /// </summary>
             Json
         }
 

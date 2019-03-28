@@ -2,6 +2,9 @@
 
 namespace LilaSharp.Events
 {
+    /// <summary>
+    /// Event data for challenges
+    /// </summary>
     public class ChallengesEvent : LilaEvent
     {
         /// <summary>

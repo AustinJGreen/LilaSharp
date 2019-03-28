@@ -1,5 +1,8 @@
 ﻿namespace LilaSharp.Events
 {
+    /// <summary>
+    /// Event for when lichess latency changes
+    /// </summary>
     public class LatencyEvent : LilaEvent
     {
         /// <summary>

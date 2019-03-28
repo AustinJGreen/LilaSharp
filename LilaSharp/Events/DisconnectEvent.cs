@@ -1,5 +1,8 @@
 ﻿namespace LilaSharp.Events
 {
+    /// <summary>
+    /// Event for when a lichess client is disconnected
+    /// </summary>
     public class DisconnectEvent : LilaEvent
     {
         /// <summary>

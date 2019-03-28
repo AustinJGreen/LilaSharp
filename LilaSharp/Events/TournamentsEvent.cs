@@ -3,6 +3,9 @@ using System.Collections.Generic;
 
 namespace LilaSharp.Events
 {
+    /// <summary>
+    /// Event for when tournament html data is received
+    /// </summary>
     public class TournamentsEvent : LilaEvent
     {
         /// <summary>

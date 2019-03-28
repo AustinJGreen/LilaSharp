@@ -1,5 +1,8 @@
 ﻿namespace LilaSharp.Events
 {
+    /// <summary>
+    /// Event for when client conencts to lichess
+    /// </summary>
     public class ConnectEvent : LilaEvent
     {
         /// <summary>

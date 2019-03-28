@@ -53,8 +53,8 @@ namespace LilaSharp
         private LilaSettings lilaSettings;
         private JsonSerializerSettings jsonSettings;
 
-        private object joinLock;
-        private object hookLock;
+        private readonly object joinLock;
+        private readonly object hookLock;
         private List<IHook> hooks;
 
         /// <summary>

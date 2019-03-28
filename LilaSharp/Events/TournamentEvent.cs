@@ -1,5 +1,8 @@
 ﻿namespace LilaSharp.Events
 {
+    /// <summary>
+    /// Event for when tournament data is received
+    /// </summary>
     public class TournamentEvent : LilaEvent
     {
         /// <summary>

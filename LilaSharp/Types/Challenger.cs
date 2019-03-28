@@ -5,24 +5,24 @@ namespace LilaSharp.Types
     public class Challenger
     {
         [JsonProperty("id")]
-        public string id { get; set; }
+        public string Id { get; set; }
 
         [JsonProperty("name")]
-        public string name { get; set; }
+        public string Name { get; set; }
 
         [JsonProperty("title")]
-        public object title { get; set; }
+        public object Title { get; set; }
 
         [JsonProperty("rating")]
-        public int rating { get; set; }
+        public int Rating { get; set; }
 
         [JsonProperty("provisional")]
-        public bool provisional { get; set; }
+        public bool Provisional { get; set; }
 
         [JsonProperty("online")]
-        public bool online { get; set; }
+        public bool Online { get; set; }
 
         [JsonProperty("lag")]
-        public int lag { get; set; }
+        public int Lag { get; set; }
     }
 }

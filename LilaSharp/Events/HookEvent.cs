@@ -2,6 +2,9 @@
 
 namespace LilaSharp.Events
 {
+    /// <summary>
+    /// Event for when a lobby hook is received
+    /// </summary>
     public class HookEvent : LilaEvent
     {
         /// <summary>

@@ -2,6 +2,9 @@
 
 namespace LilaSharp.Events
 {
+    /// <summary>
+    /// Generic event for all lichess client event
+    /// </summary>
     public class LilaEvent : EventArgs
     {
         /// <summary>

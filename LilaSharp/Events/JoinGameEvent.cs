@@ -1,5 +1,8 @@
 ﻿namespace LilaSharp.Events
 {
+    /// <summary>
+    /// Event for when a game is joined
+    /// </summary>
     public class JoinGameEvent : LilaEvent
     {
         /// <summary>
