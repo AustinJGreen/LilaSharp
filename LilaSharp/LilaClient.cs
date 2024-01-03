@@ -43,7 +43,7 @@ namespace LilaSharp
         private PPing _challengePing2;
 
         private LilaRandom random;
-        private LilaSocket lobbyCon;     
+        private LilaSocket lobbyCon;
         private LilaSocket challengeCon;
 
         private ConcurrentDictionary<string, LilaTournament> tournamentCons;
@@ -130,7 +130,7 @@ namespace LilaSharp
                 if (value != null)
                 {
                     lilaSettings = value;
-                } 
+                }
             }
         }
 
@@ -148,7 +148,7 @@ namespace LilaSharp
         /// <value>
         /// The game connections.
         /// </value>
-        public int GameConnections {  get { return gameCons.Count; } }
+        public int GameConnections { get { return gameCons.Count; } }
 
         /// <summary>
         /// Challenges a player.
@@ -248,7 +248,7 @@ namespace LilaSharp
         public async Task<SeekResponse> CreateSeek(int time, int increment, int ratingLow, int ratingHigh)
         {
             //TODO: Change for anonymous player requests
-            
+
             LilaRequest setupSeek = new LilaRequest(new Uri(string.Format("/setup/hook/{0}", LobbySri), UriKind.Relative));
             setupSeek.Cookies.Add(lobbyCon.GetCookies());
 
@@ -733,7 +733,7 @@ namespace LilaSharp
             challengeCon.AddHandler<MReload>(OnChallengeReload);
 
             //#Scheduled packets
-            lobbyCon.SchedulePacket(_lobbyPing, 1000);         
+            lobbyCon.SchedulePacket(_lobbyPing, 1000);
             challengeCon.SchedulePacket(_challengePing, 1000);
             challengeCon.SchedulePacket(_challengePing2, 2000);
 
@@ -919,7 +919,7 @@ namespace LilaSharp
             {
                 //Disconnect challenge socket
                 log.ConditionalDebug("Disconnecting challenge socket.");
-                challengeCon.DisconnectAsync().Wait();          
+                challengeCon.DisconnectAsync().Wait();
             }
 
             if (challengeLocation != null)
@@ -1004,7 +1004,7 @@ namespace LilaSharp
 
                                 ids.Add(entry);
                             }
-                        }                      
+                        }
                     }
                 }
             }
@@ -1028,7 +1028,7 @@ namespace LilaSharp
         /// <param name="ws">The websocket.</param>
         /// <param name="message">The message.</param>
         private void OnStreams(WebSocketBase ws, MStreams message)
-        {  
+        {
         }
 
         /// <summary>
@@ -1045,7 +1045,7 @@ namespace LilaSharp
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The <see cref="ErrorEventArgs"/> instance containing the event data.</param>
-        private void OnJsonParseError(object sender, ErrorEventArgs e)
+        private void OnJsonParseError(object sender, Newtonsoft.Json.Serialization.ErrorEventArgs e)
         {
             log.Error(e.ErrorContext.Error, "Failed to deserialize json.");
         }

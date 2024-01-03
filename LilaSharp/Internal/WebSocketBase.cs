@@ -61,7 +61,7 @@ namespace LilaSharp.Internal
             }
 
             schedulers = null;
-            
+
             if (finalize)
             {
                 GC.SuppressFinalize(this);
@@ -306,7 +306,7 @@ namespace LilaSharp.Internal
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The <see cref="ErrorEventArgs"/> instance containing the event data.</param>
-        private void OnJsonParseError(object sender, ErrorEventArgs e)
+        private void OnJsonParseError(object sender, Newtonsoft.Json.Serialization.ErrorEventArgs e)
         {
             log.Error(e.ErrorContext.Error, "Failed to deserialize json.");
         }
