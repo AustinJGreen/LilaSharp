@@ -29,9 +29,9 @@ namespace LilaSharp.Internal
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The <see cref="ErrorEventArgs"/> instance containing the event data.</param>
-        private static void OnMessageParseError(object sender, ErrorEventArgs e)
+        private static void OnMessageParseError(object sender, Newtonsoft.Json.Serialization.ErrorEventArgs e)
         {
-            log.Error(e.ErrorContext.Error, "Failed to deserialize json.");
+            System.Diagnostics.Debug.WriteLine(e.ErrorContext.Error, "Failed to deserialize json.");
         }
 
         private byte[] data;
@@ -80,6 +80,7 @@ namespace LilaSharp.Internal
         public JObject DecodeObject(Encoding encoding)
         {
             string jsonStr = Decode(encoding);
+            System.Diagnostics.Debug.WriteLine("RAW: {0}", jsonStr);
             object obj = JsonConvert.DeserializeObject(jsonStr, settings);
 
             if (obj is JObject)
@@ -88,7 +89,7 @@ namespace LilaSharp.Internal
             }
             else
             {
-                log.Error("Deserialized object is not a JObject. It is a {0}", obj.GetType().FullName);
+                System.Diagnostics.Debug.WriteLine("Deserialized object is not a JObject. It is a {0}", obj.GetType().FullName);
                 return null;
             }
         }

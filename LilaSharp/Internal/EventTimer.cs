@@ -97,7 +97,7 @@ namespace LilaSharp.Internal
             long offset = 0;
             if ((offset = (sw.ElapsedMilliseconds - Period)) > 50)
             {
-                log.ConditionalDebug("Timer was {0}ms off schedule.", offset);
+                System.Diagnostics.Debug.WriteLine("Timer was {0}ms off schedule.", offset);
             }
 
             if (callback != null)
@@ -108,7 +108,7 @@ namespace LilaSharp.Internal
                 }
                 catch (Exception ex)
                 {
-                    log.Error(ex, "Error in timer callback.");
+                    System.Diagnostics.Debug.WriteLine(ex, "Error in timer callback.");
                 }
             }
 
@@ -136,12 +136,12 @@ namespace LilaSharp.Internal
         /// <param name="finalize"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
         protected virtual void Dispose(bool finalize)
         {
-            log.ConditionalTrace("~LilaTimer");
+            System.Diagnostics.Debug.WriteLine("~LilaTimer");
 
             running = false;
 
             lock (timerLock)
-            {         
+            {
                 if (timer != null)
                 {
                     timer.Dispose();

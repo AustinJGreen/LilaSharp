@@ -2,9 +2,10 @@
 using System;
 using System.Globalization;
 using System.IO;
-using System.Net;
+//using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using WebSocketSharp.Net;
 
 namespace LilaSharp
 {
@@ -19,7 +20,7 @@ namespace LilaSharp
         static LilaRequest()
         {
             //Necessary for https transport calls.
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
+            //ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12;
         }
 
         private const string DefaultUA = "LilaSharp";
@@ -81,6 +82,37 @@ namespace LilaSharp
         /// </value>
         public CookieCollection Cookies { get; set; }
 
+        public System.Net.CookieCollection ConvertCookies(CookieCollection wsCookies)
+        {
+            var netCookies = new System.Net.CookieCollection();
+
+            foreach (Cookie wsCookie in wsCookies)
+            {
+                var netCookie = new System.Net.Cookie(wsCookie.Name, wsCookie.Value)
+                {
+                    Domain = wsCookie.Domain,
+                    Path = wsCookie.Path,
+                    Secure = wsCookie.Secure,
+                    HttpOnly = wsCookie.HttpOnly,
+                    Expires = wsCookie.Expires,
+                    Comment = wsCookie.Comment,
+                    CommentUri = wsCookie.CommentUri != null ? new Uri(wsCookie.CommentUri.ToString()) : null,
+                    Discard = wsCookie.Discard,
+                    Port = wsCookie.Port,
+                    Version = wsCookie.Version
+                };
+
+                // if (!string.IsNullOrEmpty(wsCookie.MaxAge) && double.TryParse(wsCookie.MaxAge, out double maxAge))
+                // {
+                //     netCookie.Expires = DateTime.Now.AddSeconds(maxAge);
+                // }
+
+                netCookies.Add(netCookie);
+            }
+
+            return netCookies;
+        }
+
         /// <summary>
         /// Gets the specified content type.
         /// </summary>
@@ -91,7 +123,7 @@ namespace LilaSharp
             Uri host = new Uri("https://lichess.org");
             Uri absolute = uri.IsAbsoluteUri ? uri : new Uri(host, uri);
 
-            HttpWebRequest wreq = (HttpWebRequest)WebRequest.Create(absolute);
+            System.Net.HttpWebRequest wreq = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(absolute);
 
             wreq.Method = "GET";
             switch (contentType)
@@ -106,7 +138,7 @@ namespace LilaSharp
                     wreq.Accept = "application/vnd.lichess.v2+json";
                     break;
             }
-            
+
             wreq.AllowAutoRedirect = true;
 
             wreq.Headers["Accept-Encoding"] = "gzip, deflate";
@@ -116,22 +148,22 @@ namespace LilaSharp
             wreq.Host = absolute.Host;
             wreq.UserAgent = UserAgent ?? DefaultUA;
 
-            wreq.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
-            wreq.CookieContainer = new CookieContainer();
+            wreq.AutomaticDecompression = System.Net.DecompressionMethods.GZip | System.Net.DecompressionMethods.Deflate;
+            wreq.CookieContainer = new System.Net.CookieContainer();
 
             if (Cookies != null)
             {
-                wreq.CookieContainer.Add(Cookies);
+                wreq.CookieContainer.Add(ConvertCookies(Cookies));
             }
 
             try
             {
-                HttpWebResponse result = await wreq.GetResponseAsync() as HttpWebResponse;
+                System.Net.HttpWebResponse result = await wreq.GetResponseAsync() as System.Net.HttpWebResponse;
                 return new LilaResponse(result);
             }
             catch (Exception ex)
             {
-                log.Error(ex, "Failed to execute GET request to \"{0}\"", absolute);
+                System.Diagnostics.Debug.WriteLine("Failed to execute GET request to \"{0}\"", ex);
                 return new LilaResponse();
             }
         }
@@ -192,7 +224,7 @@ namespace LilaSharp
             Uri host = new Uri("https://lichess.org");
             Uri absolute = uri.IsAbsoluteUri ? uri : new Uri(host, uri);
 
-            HttpWebRequest wreq = (HttpWebRequest)WebRequest.Create(absolute);
+            System.Net.HttpWebRequest wreq = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(absolute);
 
             wreq.Method = "POST";
             switch (contentType)
@@ -217,12 +249,12 @@ namespace LilaSharp
             wreq.Host = absolute.Host;
             wreq.UserAgent = UserAgent ?? DefaultUA;
 
-            wreq.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
-            wreq.CookieContainer = new CookieContainer();
+            wreq.AutomaticDecompression = System.Net.DecompressionMethods.GZip | System.Net.DecompressionMethods.Deflate;
+            wreq.CookieContainer = new System.Net.CookieContainer();
 
             if (Cookies != null)
             {
-                wreq.CookieContainer.Add(Cookies);
+                wreq.CookieContainer.Add(ConvertCookies(Cookies));
             }
 
             if (data.Length > 0)
@@ -236,7 +268,7 @@ namespace LilaSharp
                         wreq.ContentType = "application/x-www-form-urlencoded; charset=UTF-8";
                         break;
                 }
-                
+
             }
 
             wreq.ContentLength = data.Length;
@@ -251,11 +283,11 @@ namespace LilaSharp
                     }
                 }
 
-                return new LilaResponse(await wreq.GetResponseAsync() as HttpWebResponse);
+                return new LilaResponse(await wreq.GetResponseAsync() as System.Net.HttpWebResponse);
             }
             catch (Exception ex)
             {
-                log.Error(ex, "Failed to execute POST request.");
+                System.Diagnostics.Debug.WriteLine(ex, "Failed to execute POST request.");
                 return new LilaResponse();
             }
         }

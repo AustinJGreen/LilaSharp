@@ -3,8 +3,9 @@ using LilaSharp.Messages;
 using LilaSharp.Packets;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Net;
+//using System.Net;
 using System.Threading.Tasks;
+using WebSocketSharp.Net;
 
 namespace LilaSharp
 {

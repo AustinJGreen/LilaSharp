@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace LilaSharp.Internal
 {
@@ -82,6 +83,11 @@ namespace LilaSharp.Internal
             string inside = data.Substring(s, endIndex - s + 1);
             if (level == 0)
             {
+                Debug.WriteLine("--------------");
+                Debug.WriteLine(" ");
+                Debug.WriteLine(inside);
+                Debug.WriteLine(" ");
+                Debug.WriteLine("--------------");
                 return inside;
             }
 

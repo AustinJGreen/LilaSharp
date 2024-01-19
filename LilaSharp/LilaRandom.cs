@@ -41,7 +41,7 @@ namespace LilaSharp
             uint rand;
             long max = (1 + (long)uint.MaxValue);
 
-            do    
+            do
             {
                 crypto.GetBytes(buffer);
             }
@@ -89,7 +89,7 @@ namespace LilaSharp
         /// <param name="finalize"><c>true</c> to release both managed and unmanaged resources; <c>false</c> to release only unmanaged resources.</param>
         protected virtual void Dispose(bool finalize)
         {
-            log.ConditionalTrace("~LilaRandom");
+            System.Diagnostics.Debug.WriteLine("~LilaRandom");
             if (crypto != null)
             {
                 crypto.Dispose();

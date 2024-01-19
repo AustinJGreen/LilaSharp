@@ -75,7 +75,7 @@ namespace LilaSharp
                 }
                 catch (Exception ex)
                 {
-                    log.Error(ex, "Failed to read response from server.");
+                    System.Diagnostics.Debug.WriteLine(ex, "Failed to read response from server.");
                     return null;
                 }
             }
@@ -101,7 +101,7 @@ namespace LilaSharp
                 }
                 catch (Exception ex)
                 {
-                    log.Error(ex, "Failed to read response from server.");
+                    System.Diagnostics.Debug.WriteLine(ex, "Failed to read response from server.");
                     return null;
                 }
             }
@@ -130,7 +130,7 @@ namespace LilaSharp
                 }
                 catch (Exception ex)
                 {
-                    log.Error(ex, "Failed to read response from server.");
+                    System.Diagnostics.Debug.WriteLine(ex, "Failed to read response from server.");
                     return default(T);
                 }
             }
@@ -145,7 +145,7 @@ namespace LilaSharp
         /// <param name="e">The <see cref="Newtonsoft.Json.Serialization.ErrorEventArgs"/> instance containing the event data.</param>
         private void OnJsonError(object sender, Newtonsoft.Json.Serialization.ErrorEventArgs e)
         {
-            log.Error(e.ErrorContext.Error, "Failed to deserialize json.");
+            System.Diagnostics.Debug.WriteLine(e.ErrorContext.Error, "Failed to deserialize json.");
         }
 
         /// <summary>

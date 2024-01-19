@@ -11,9 +11,11 @@ using NLog;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
-using System.Net;
+//using System.Net;
 using System.Threading.Tasks;
+using WebSocketSharp.Net;
 
 namespace LilaSharp
 {
@@ -29,7 +31,7 @@ namespace LilaSharp
         static LilaClient()
         {
             //Very important will not work without increased limit
-            ServicePointManager.DefaultConnectionLimit = 200;
+            //ServicePointManager.DefaultConnectionLimit = 200;
         }
 
         private static Logger log = LogManager.GetCurrentClassLogger();
@@ -43,7 +45,7 @@ namespace LilaSharp
         private PPing _challengePing2;
 
         private LilaRandom random;
-        private LilaSocket lobbyCon;     
+        private LilaSocket lobbyCon;
         private LilaSocket challengeCon;
 
         private ConcurrentDictionary<string, LilaTournament> tournamentCons;
@@ -130,7 +132,7 @@ namespace LilaSharp
                 if (value != null)
                 {
                     lilaSettings = value;
-                } 
+                }
             }
         }
 
@@ -148,7 +150,7 @@ namespace LilaSharp
         /// <value>
         /// The game connections.
         /// </value>
-        public int GameConnections {  get { return gameCons.Count; } }
+        public int GameConnections { get { return gameCons.Count; } }
 
         /// <summary>
         /// Challenges a player.
@@ -170,7 +172,7 @@ namespace LilaSharp
             object[] values = new object[] { form.Variant, form.Fen, form.TimeMode, form.Time, form.Increment, form.Days, form.Mode, form.Color };
 
             LilaResponse res = await setupFriend.Post(LilaRequest.ContentType.Any, keys, values);
-            if (res == null || !res.CheckStatus(HttpStatusCode.OK | HttpStatusCode.SeeOther))
+            if (res == null || !res.CheckStatus(System.Net.HttpStatusCode.OK | System.Net.HttpStatusCode.SeeOther))
             {
                 return false;
             }
@@ -192,7 +194,7 @@ namespace LilaSharp
             challengeCon.AddCookies(lobbyCon.GetCookies());
             if (challengeCon.Connect(challengeBldr.Uri))
             {
-                log.ConditionalDebug("Connected to challenge socket. Awaiting reload message.");
+                Debug.WriteLine("Connected to challenge socket. Awaiting reload message.");
                 return true;
             }
 
@@ -208,6 +210,33 @@ namespace LilaSharp
             LilaRequest req = new LilaRequest(new Uri(LilaRoutes.Lobby, UriKind.Relative), Culture);
             Task<LilaResponse> result = req.Get(LilaRequest.ContentType.Html);
             result.ContinueWith(HandleAuth);
+        }
+
+        static WebSocketSharp.Net.CookieCollection ConvertCookies(System.Net.CookieCollection netCookies)
+        {
+            var wsCookies = new WebSocketSharp.Net.CookieCollection();
+
+            foreach (System.Net.Cookie netCookie in netCookies)
+            {
+                var wsCookie = new WebSocketSharp.Net.Cookie(netCookie.Name, netCookie.Value)
+                {
+                    Domain = netCookie.Domain,
+                    Path = netCookie.Path,
+                    Secure = netCookie.Secure,
+                    HttpOnly = netCookie.HttpOnly,
+                    Expires = netCookie.Expires,
+                    Comment = netCookie.Comment,
+                    //CommentUri = netCookie.CommentUri?,
+                    Discard = netCookie.Discard,
+                    Port = netCookie.Port,
+                    Version = netCookie.Version,
+                    //MaxAge = netCookie.Expires == DateTime.MinValue ? "" : ((netCookie.Expires - DateTime.Now).TotalSeconds).ToString()
+                };
+
+                wsCookies.Add(wsCookie);
+            }
+
+            return wsCookies;
         }
 
         /// <summary>
@@ -230,7 +259,7 @@ namespace LilaSharp
             LilaRequest req = new LilaRequest(new Uri(LilaRoutes.Login, UriKind.Relative), Culture);
             if (hpResTask.Result != null)
             {
-                req.Cookies.Add(hpResTask.Result.GetCookies());
+                req.Cookies.Add(ConvertCookies(hpResTask.Result.GetCookies()));
             }
 
             Task<LilaResponse> result = req.Post(LilaRequest.ContentType.Html, new string[] { "username", "password" }, new string[] { username, password });
@@ -248,7 +277,7 @@ namespace LilaSharp
         public async Task<SeekResponse> CreateSeek(int time, int increment, int ratingLow, int ratingHigh)
         {
             //TODO: Change for anonymous player requests
-            
+
             LilaRequest setupSeek = new LilaRequest(new Uri(string.Format("/setup/hook/{0}", LobbySri), UriKind.Relative));
             setupSeek.Cookies.Add(lobbyCon.GetCookies());
 
@@ -259,7 +288,7 @@ namespace LilaSharp
             object[] values = new object[] { 1, 1, timeMinutes, increment, 2, 1, ratingRange, "white" };
 
             LilaResponse res = await setupSeek.Post(LilaRequest.ContentType.Any, keys, values);
-            if (res == null || !res.CheckStatus(HttpStatusCode.OK | HttpStatusCode.SeeOther))
+            if (res == null || !res.CheckStatus(System.Net.HttpStatusCode.OK | System.Net.HttpStatusCode.SeeOther))
             {
                 return null;
             }
@@ -274,11 +303,11 @@ namespace LilaSharp
         /// <param name="callback">The callback.</param>
         private void HandleAuth(Task<LilaResponse> callback)
         {
-            if (callback.IsFaulted || !callback.Result.CheckStatus(HttpStatusCode.OK | HttpStatusCode.SeeOther))
+            if (callback.IsFaulted || !callback.Result.CheckStatus(System.Net.HttpStatusCode.OK | System.Net.HttpStatusCode.SeeOther))
             {
                 LilaEvent authFail = new LilaEvent(this);
                 Events.FireEventAsync(Events._onAuthenticationFail, authFail);
-                log.Warn("Events.OnAuthentication is not added, login will not connect to the lobby.");
+                System.Diagnostics.Debug.WriteLine("Events.OnAuthentication is not added, login will not connect to the lobby.");
             }
             else
             {
@@ -296,7 +325,7 @@ namespace LilaSharp
             if (!obj.IsFaulted && obj.Result != null)
             {
                 var result = obj.Result.GetCookies();
-                lobbyCon.AddCookies(result);
+                lobbyCon.AddCookies(ConvertCookies(result));
             }
 
             ConnectLobbyInternal();
@@ -503,6 +532,17 @@ namespace LilaSharp
             lock (joinLock)
             {
                 Uri host = new Uri("wss://socket.lichess.org");
+
+                if (game.Url == null)
+                {
+
+                    game.Url = new Url()
+                    {
+                        Socket = "/play/" + game.GetID() + game.Player.Id + "/v6"
+
+                    };
+                }
+
                 if (!Uri.TryCreate(game.Url.Socket, UriKind.Relative, out Uri relative))
                 {
                     return false;
@@ -523,7 +563,8 @@ namespace LilaSharp
                 gameCon.AddCookies(lobbyCon.GetCookies());
                 if (anonymous)
                 {
-                    gameCon.AddCookies(new Cookie("rk2", game.Url.Socket.Substring(9, 4), "/", "lichess.org")); //Add anoncookie
+                    // gameCon.AddCookies(new Cookie("rk2", game.Url.Socket.Substring(9, 4), "/", "lichess.org")); //Add anoncookie
+                    gameCon.AddCookies(new Cookie("rk2", game.Player.Id, "/", "lichess.org")); //Add anoncookie
                 }
 
                 if (gameCons.Count == 0 && gameCon.Connect(gameBldr.Uri) && !_disposing)
@@ -573,7 +614,7 @@ namespace LilaSharp
         /// <returns></returns>
         internal bool Remove(LilaGame game)
         {
-            log.ConditionalDebug("Removing {0}", game.Data.Url.Socket);
+            Debug.WriteLine("Removing {0}", game.Data.Url.Socket);
 
             bool result = gameCons.TryRemove(game.Data.Url.Socket, out LilaGame s);
             game.Dispose();
@@ -617,7 +658,7 @@ namespace LilaSharp
             {
                 foreach (KeyValuePair<string, LilaGame> game in gameCons)
                 {
-                    log.ConditionalDebug("Disconnecting {0}", game.Key);
+                    Debug.WriteLine("Disconnecting {0}", game.Key);
                     game.Value.Dispose();
                 }
 
@@ -628,7 +669,7 @@ namespace LilaSharp
             {
                 foreach (KeyValuePair<string, LilaTournament> tournament in tournamentCons)
                 {
-                    log.ConditionalDebug("Disconnecting {0}", tournament.Key);
+                    Debug.WriteLine("Disconnecting {0}", tournament.Key);
                     tournament.Value.Dispose();
                 }
 
@@ -696,7 +737,8 @@ namespace LilaSharp
             {
                 Formatting = Formatting.None,
                 Error = OnJsonParseError,
-                ContractResolver = new PacketResolver()
+                ContractResolver = new PacketResolver(),
+                Culture = CultureInfo.InvariantCulture
             };
 
             //#Packets
@@ -733,7 +775,7 @@ namespace LilaSharp
             challengeCon.AddHandler<MReload>(OnChallengeReload);
 
             //#Scheduled packets
-            lobbyCon.SchedulePacket(_lobbyPing, 1000);         
+            lobbyCon.SchedulePacket(_lobbyPing, 1000);
             challengeCon.SchedulePacket(_challengePing, 1000);
             challengeCon.SchedulePacket(_challengePing2, 2000);
 
@@ -778,16 +820,25 @@ namespace LilaSharp
             LilaResponse roundRes = await roundReq.Get(LilaRequest.ContentType.Html);
             if (roundRes == null)
             {
-                log.Error("Failed to join round at {0}", location);
+                System.Diagnostics.Debug.WriteLine("Failed to join round at {0}", location);
                 return null;
             }
 
             string html = await roundRes.ReadAsync();
+            // Debug.WriteLine(" ");
+            // Debug.WriteLine("------------");
+            // Debug.WriteLine(html);
 
-            const string id = "LichessRound.boot(";
+            // const string id = "LichessRound.boot("; // does not exist anymore
+            const string id = "lichess.asset.loadEsm('round',{init:";
+
+            // Debug.WriteLine(" ");
+            // Debug.WriteLine(id);
+            // Debug.WriteLine(" ");
+            // Debug.WriteLine("--------------");
 
             int roundBootIndex = html.IndexOf(id);
-            if (roundBootIndex == -1)
+            if (roundBootIndex == -1) // this is where the game is failing to join ???
             {
                 return null;
             }
@@ -795,7 +846,7 @@ namespace LilaSharp
             string json = StringEngine.GetInside(html, roundBootIndex + id.Length);
             if (json == null)
             {
-                log.Error("Failed to parse game json data.");
+                System.Diagnostics.Debug.WriteLine("Failed to parse game json data.");
                 return null;
             }
 
@@ -820,7 +871,7 @@ namespace LilaSharp
             LilaResponse roundRes = await tournamentReq.Get(LilaRequest.ContentType.Html);
             if (roundRes == null)
             {
-                log.Error("Failed to join tournament at {0}", tournamentId);
+                System.Diagnostics.Debug.WriteLine("Failed to join tournament at {0}", tournamentId);
                 return null;
             }
 
@@ -837,7 +888,7 @@ namespace LilaSharp
             string json = StringEngine.GetInside(html, roundBootIndex + id.Length);
             if (json == null)
             {
-                log.Error("Failed to parse tournament json data.");
+                System.Diagnostics.Debug.WriteLine("Failed to parse tournament json data.");
                 return null;
             }
 
@@ -851,14 +902,14 @@ namespace LilaSharp
         /// <param name="e">The e.</param>
         private void OnLobbyDisconnect(object sender, SocketDisconnectArgs e)
         {
-            log.ConditionalDebug("Disconnected from lobby socket.");
+            Debug.WriteLine("Disconnected from lobby socket.");
             if (lobbyCon != null && !_disposing && !e.Initiated && Settings.AutoReconnect && e.ReconnectionAttempts < Settings.ReconnectionAttemptLimit)
             {
                 Events.FireEventAsync(Events._onDisconnect, new Events.DisconnectEvent(this));
 
                 if (Settings.AutoReconnect)
                 {
-                    log.ConditionalDebug("Reconnecting.");
+                    Debug.WriteLine("Reconnecting.");
                     lobbyCon.Reset();
                     ConnectLobbyInternal();
                 }
@@ -872,10 +923,10 @@ namespace LilaSharp
         /// <param name="e">The e.</param>
         private void OnChallengeDisconnect(object sender, SocketDisconnectArgs e)
         {
-            log.ConditionalDebug("Disconnected from challenge socket.");
+            Debug.WriteLine("Disconnected from challenge socket.");
             if (challengeCon != null && !_disposing && !e.Initiated && e.ReconnectionAttempts < Settings.ReconnectionAttemptLimit)
             {
-                log.ConditionalDebug("Reconnecting challenge socket.");
+                Debug.WriteLine("Reconnecting challenge socket.");
                 challengeCon.Reconnect();
             }
         }
@@ -918,8 +969,8 @@ namespace LilaSharp
             if (challengeCon != null && challengeCon.IsConnected())
             {
                 //Disconnect challenge socket
-                log.ConditionalDebug("Disconnecting challenge socket.");
-                challengeCon.DisconnectAsync().Wait();          
+                Debug.WriteLine("Disconnecting challenge socket.");
+                challengeCon.DisconnectAsync().Wait();
             }
 
             if (challengeLocation != null)
@@ -1004,7 +1055,7 @@ namespace LilaSharp
 
                                 ids.Add(entry);
                             }
-                        }                      
+                        }
                     }
                 }
             }
@@ -1028,7 +1079,7 @@ namespace LilaSharp
         /// <param name="ws">The websocket.</param>
         /// <param name="message">The message.</param>
         private void OnStreams(WebSocketBase ws, MStreams message)
-        {  
+        {
         }
 
         /// <summary>
@@ -1045,9 +1096,9 @@ namespace LilaSharp
         /// </summary>
         /// <param name="sender">The sender.</param>
         /// <param name="e">The <see cref="ErrorEventArgs"/> instance containing the event data.</param>
-        private void OnJsonParseError(object sender, ErrorEventArgs e)
+        private void OnJsonParseError(object sender, Newtonsoft.Json.Serialization.ErrorEventArgs e)
         {
-            log.Error(e.ErrorContext.Error, "Failed to deserialize json.");
+            System.Diagnostics.Debug.WriteLine(e.ErrorContext.Error, "Failed to deserialize json.");
         }
 
         /// <summary>
@@ -1108,7 +1159,7 @@ namespace LilaSharp
         /// <param name="message">The message.</param>
         private void OnDeployPre(WebSocketBase ws, MDeployPre message)
         {
-            log.Debug("!!! Lichess will restart soon !!!");
+            System.Diagnostics.Debug.WriteLine("!!! Lichess will restart soon !!!");
         }
 
         /// <summary>

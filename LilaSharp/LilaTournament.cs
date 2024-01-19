@@ -140,10 +140,10 @@ namespace LilaSharp
         /// <param name="e">The e.</param>
         private void OnDisconnect(object sender, SocketDisconnectArgs e)
         {
-            log.ConditionalDebug("Disconnected from /tournament/{0}", tournamentData.Id);
+            System.Diagnostics.Debug.WriteLine("Disconnected from /tournament/{0}", tournamentData.Id);
             if (socket != null && !e.Initiated && e.ReconnectionAttempts < Client.Settings.ReconnectionAttemptLimit)
             {
-                log.ConditionalDebug("Reconnecting /tournament/{0}", tournamentData.Id);
+                System.Diagnostics.Debug.WriteLine("Reconnecting /tournament/{0}", tournamentData.Id);
                 socket.Reconnect();
             }
         }
@@ -223,7 +223,7 @@ namespace LilaSharp
         /// <param name="message">The message.</param>
         private void OnDeployPre(WebSocketBase ws, MDeployPre message)
         {
-            log.Debug("!!! Lichess will restart soon !!!");
+            System.Diagnostics.Debug.WriteLine("!!! Lichess will restart soon !!!");
         }
 
         /// <summary>
@@ -296,7 +296,7 @@ namespace LilaSharp
             //p is password
             string str = "{\"p\":null}";
             LilaResponse joinRes = await joinReq.Post(LilaRequest.ContentType.Json, str);
-            
+
             bool success = joinRes != null && joinRes.CheckStatus(HttpStatusCode.OK | HttpStatusCode.SeeOther);
             if (success)
             {
