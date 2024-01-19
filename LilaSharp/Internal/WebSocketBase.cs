@@ -82,7 +82,7 @@ namespace LilaSharp.Internal
             }
             else
             {
-                log.Warn("Cannot send null or empty text.");
+                System.Diagnostics.Debug.WriteLine("Cannot send null or empty text.");
             }
         }
 
@@ -110,7 +110,7 @@ namespace LilaSharp.Internal
 
                 if (Debug)
                 {
-                    log.ConditionalDebug("Received {0}", jobj.ToString());
+                    System.Diagnostics.Debug.WriteLine("Received {0}", jobj.ToString());
                 }
 
                 //Lock whole statement for futureproof protection against handlers being removed
@@ -126,12 +126,12 @@ namespace LilaSharp.Internal
                         }
                         catch (Exception ex)
                         {
-                            log.Error(ex, "Error while handling \"{0}\". Check the IMessage json structure.", type);
+                            System.Diagnostics.Debug.WriteLine("Error while handling \"{0}\". Check the IMessage json structure.", ex);
                         }
                     }
                     else
                     {
-                        log.Warn("Unhandled message: {0}", jobj.ToString());
+                        System.Diagnostics.Debug.WriteLine("Unhandled message: {0}", jobj.ToString());
                     }
                 }
             }
@@ -155,7 +155,7 @@ namespace LilaSharp.Internal
 
                     if (parseErrors == versionHandlers.Count)
                     {
-                        log.ConditionalDebug("No handlers were able to parse the IVersionedMessage.");
+                        System.Diagnostics.Debug.WriteLine("No handlers were able to parse the IVersionedMessage.");
                     }
                 }
             }
@@ -190,7 +190,7 @@ namespace LilaSharp.Internal
             }
             catch (MissingMethodException mme)
             {
-                log.Error(mme, "ITypeMessage type must have a zero argument constructor.");
+                System.Diagnostics.Debug.WriteLine(mme, "ITypeMessage type must have a zero argument constructor.");
                 return;
             }
 
@@ -308,7 +308,7 @@ namespace LilaSharp.Internal
         /// <param name="e">The <see cref="ErrorEventArgs"/> instance containing the event data.</param>
         private void OnJsonParseError(object sender, Newtonsoft.Json.Serialization.ErrorEventArgs e)
         {
-            log.Error(e.ErrorContext.Error, "Failed to deserialize json.");
+            System.Diagnostics.Debug.WriteLine(e.ErrorContext.Error, "Failed to deserialize json.");
         }
     }
 }

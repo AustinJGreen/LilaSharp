@@ -4,8 +4,10 @@ namespace LilaSharp.Types
 {
     public class Pref
     {
+        // [JsonProperty("animationDuration")]
+        // public int AnimationDuration { get; set; }
         [JsonProperty("animationDuration")]
-        public int AnimationDuration { get; set; }
+        public double AnimationDuration { get; set; }
 
         [JsonProperty("coords")]
         public int Coords { get; set; }

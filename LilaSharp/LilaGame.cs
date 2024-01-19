@@ -6,6 +6,7 @@ using LilaSharp.Packets;
 using LilaSharp.Types;
 using NLog;
 using System;
+using System.Diagnostics;
 
 namespace LilaSharp
 {
@@ -49,7 +50,7 @@ namespace LilaSharp
         /// <value>
         /// The clock.
         /// </value>
-        public ClockData Clock {  get { return curClock; } }
+        public ClockData Clock { get { return curClock; } }
 
         /// <summary>
         /// Gets the data.
@@ -57,7 +58,7 @@ namespace LilaSharp
         /// <value>
         /// The data.
         /// </value>
-        public GameData Data {  get { return gameData; } }
+        public GameData Data { get { return gameData; } }
 
         /// <summary>
         /// Gets or sets the game version.
@@ -157,7 +158,7 @@ namespace LilaSharp
             SendPing();
             socket.SchedulePacket(gamePing, 1000);
 
-            random = new Random();           
+            random = new Random();
         }
 
         /// <summary>
@@ -199,10 +200,10 @@ namespace LilaSharp
         /// <param name="e">The e.</param>
         private void OnDisconnect(object sender, SocketDisconnectArgs e)
         {
-            log.ConditionalDebug("Disconnected from {0}", gameData.Url.Socket);
+            Debug.WriteLine("Disconnected from {0}", gameData.Url.Socket);
             if (socket != null && !e.Initiated && e.ReconnectionAttempts < Client.Settings.ReconnectionAttemptLimit)
             {
-                log.ConditionalDebug("Reconnecting {0}", gameData.Url.Socket);
+                Debug.WriteLine("Reconnecting {0}", gameData.Url.Socket);
                 socket.Reconnect();
             }
         }
@@ -224,7 +225,7 @@ namespace LilaSharp
         /// <param name="message">The message.</param>
         private void OnChallenges(WebSocketBase ws, Messages.MChallenges message)
         {
-            
+
         }
 
         /// <summary>
@@ -234,7 +235,7 @@ namespace LilaSharp
         /// <param name="message">The message.</param>
         private void OnAck(WebSocketBase ws, MAck message)
         {
-            
+
         }
 
         /// <summary>
@@ -253,7 +254,7 @@ namespace LilaSharp
         /// <param name="message">The message.</param>
         private void OnCrowd(WebSocketBase ws, MCrowd message)
         {
-            
+
         }
 
         /// <summary>
@@ -275,7 +276,7 @@ namespace LilaSharp
         {
             if (ProcessGameMessage(message) && Client.Remove(this))
             {
-                Client.JoinGame(message.Redirect.Id);         
+                Client.JoinGame(message.Redirect.Id);
             }
         }
 

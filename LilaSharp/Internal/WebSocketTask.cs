@@ -41,7 +41,7 @@ namespace LilaSharp.Internal
             {
                 for (int i = 0; i < task.Exception.InnerExceptions.Count; i++)
                 {
-                    log.ConditionalDebug(task.Exception.InnerExceptions[i], "WebSocketTask faulted.");
+                    System.Diagnostics.Debug.WriteLine(task.Exception.InnerExceptions[i], "WebSocketTask faulted.");
                 }
             }
 
@@ -89,7 +89,7 @@ namespace LilaSharp.Internal
                 {
                     for (int i = 0; i < ae.InnerExceptions.Count; i++)
                     {
-                        log.ConditionalDebug(ae.InnerExceptions[i], "WebSocketTask faulted.");
+                        System.Diagnostics.Debug.WriteLine(ae.InnerExceptions[i], "WebSocketTask faulted.");
                     }
                 }
             }
@@ -114,7 +114,7 @@ namespace LilaSharp.Internal
         {
             if (task != null && task.IsCompleted)
             {
-                log.ConditionalTrace("~WebSocketTask");
+                System.Diagnostics.Debug.WriteLine("~WebSocketTask");
                 result = task.Status;
                 task.Dispose();
                 task = null;
